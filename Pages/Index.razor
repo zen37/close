@@ -1,0 +1,61 @@
+﻿@page "/"
+
+@using Microsoft.AspNetCore.Components
+
+<div style="display: flex; justify-content: flex-start;">
+    <div style="margin-right: 20px;">
+        <label style="font-size: 20px;">A</label>
+        <input type="checkbox" @bind="CheckboxA" style="zoom: 1.5;" />
+        <span style="font-size: 20px;">@(CheckboxA ? "true" : "false")</span>
+    </div>
+    <div style="margin-right: 20px;">
+        <label style="font-size: 20px;">B</label>
+        <input type="checkbox" @bind="CheckboxB" style="zoom: 1.5;" />
+        <span style="font-size: 20px;">@(CheckboxB ? "true" : "false")</span>
+    </div>
+    <div>
+        <label style="font-size: 20px;">C</label>
+        <input type="checkbox" @bind="CheckboxC" style="zoom: 1.5;" />
+        <span style="font-size: 20px;">@(CheckboxC ? "true" : "false")</span>
+    </div>
+</div>
+
+<br />
+<div>
+    <div style="display: flex; justify-content: flex-start;">
+        <div><b>(A or B) and C</b> ... A or B is evaluated first</div>
+    </div>
+    <div style="display: flex; justify-content: flex-start;">
+        <div>@($"[{(CheckboxA ? "true" : "false")} or {(CheckboxB ? "true" : "false")}] and {(CheckboxC ? "true" : "false")}")</div>
+    </div>
+    <div style="display: flex; justify-content: flex-start;">
+        <div>@(CheckboxA || CheckboxB ? "true" : "false") and @(CheckboxC ? "true" : "false")</div>
+    </div>
+    <div style="display: flex; justify-content: flex-start;">
+        <div>Result of (A or B) and C is <b>@(CheckboxA || CheckboxB && CheckboxC ? "true" : "false")</b></div>
+    </div>
+</div>
+<br />
+<div>
+    <div style="display: flex; justify-content: flex-start;">
+        <div><b>A or B and C</b> ... B and C is evaluated first</div>
+    </div>
+    <div style="display: flex; justify-content: flex-start;">
+        <div>@($"{(CheckboxA ? "true" : "false")} or [{(CheckboxB ? "true" : "false")} and {(CheckboxC ? "true" : "false")}]")</div>
+    </div>
+    <div style="display: flex; justify-content: flex-start;">
+        <div>@(CheckboxA ? "true" : "false") or @(CheckboxB && CheckboxC ? "true" : "false")</div>
+    </div>
+    <div style="display: flex; justify-content: flex-start;">
+        <div>Result of A or B and C is <b>@(CheckboxA || (CheckboxB && CheckboxC) ? "true" : "false")</b></div>
+    </div>
+</div>
+
+
+
+@code {
+    // Define properties for checkboxes
+    private bool CheckboxA { get; set; }
+    private bool CheckboxB { get; set; }
+    private bool CheckboxC { get; set; }
+}

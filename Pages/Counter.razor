@@ -1,0 +1,90 @@
+﻿@page "/explain"
+
+@using Microsoft.AspNetCore.Components
+
+<div style="display: flex; justify-content: flex-start;">
+    <div style="margin-right: 20px;">
+        <label style="font-size: 20px;">A</label>
+        <input type="checkbox" @bind="CheckboxA" style="zoom: 1.5;" />
+        <span style="font-size: 20px; color: @(CheckboxA ? "green" : "red")">@GetLabel(CheckboxA)</span>
+    </div>
+    <div style="margin-right: 20px;">
+        <label style="font-size: 20px;">B</label>
+        <input type="checkbox" @bind="CheckboxB" style="zoom: 1.5;" />
+        <span style="font-size: 20px; color: @(CheckboxB ? "green" : "red")">@GetLabel(CheckboxB)</span>
+    </div>
+    <div>
+        <label style="font-size: 20px;">C</label>
+        <input type="checkbox" @bind="CheckboxC" style="zoom: 1.5;" />
+        <span style="font-size: 20px; color: @(CheckboxC ? "green" : "red")">@GetLabel(CheckboxC)</span>
+    </div>
+</div>
+
+
+<br />
+<div>
+    <div style="display: flex; justify-content: flex-start;">
+        <div><b>(A or B) and C</b> ... A or B is evaluated first</div>
+    </div>
+    <div style="display: flex; justify-content: flex-start;">
+        <div>
+            <span style="color: @(GetLabelColor(CheckboxA))">[@GetLabel(CheckboxA)</span>
+            or
+            <span style="color: @(GetLabelColor(CheckboxB))">@GetLabel(CheckboxB)]</span>
+            and
+            <span style="color: @(GetLabelColor(CheckboxC))">@GetLabel(CheckboxC)</span>
+        </div>
+    </div>
+
+    <div style="display: flex; justify-content: flex-start;">
+        <div>
+            <span style="color: @(CheckboxA || CheckboxB ? "green" : "red")">@GetLabel(CheckboxA || CheckboxB)</span> and <span style="color: @(CheckboxC ? "green" : "red")">@GetLabel(CheckboxC)</span>
+        </div>
+    </div>
+
+
+    <div style="display: flex; justify-content: flex-start;">
+        <div>
+            Result of (A or B) and C is <b style="color: @(CheckboxA || CheckboxB && CheckboxC ? "green" : "red")">@GetLabel(CheckboxA || CheckboxB && CheckboxC)</b>
+        </div>
+    </div>
+
+</div>
+<br />
+<div>
+    <div style="display: flex; justify-content: flex-start;">
+        <div><b>A or B and C</b> ... B and C is evaluated first</div>
+    </div>
+    <div style="display: flex; justify-content: flex-start;">
+        <div><span style="color: @(CheckboxA ? "green" : "red")">@GetLabel(CheckboxA)</span> or <span style="color: @(CheckboxB ? "green" : "red")">[@GetLabel(CheckboxB)</span> and <span style="color: @(CheckboxC ? "green" : "red")">@GetLabel(CheckboxC)]</span></div>
+    </div>
+
+    <div style="display: flex; justify-content: flex-start;">
+        <div>
+            <span style="color: @(CheckboxA ? "green" : "red")">@GetLabel(CheckboxA)</span> or <span style="color: @(CheckboxB && CheckboxC ? "green" : "red")">@GetLabel(CheckboxB && CheckboxC)</span>
+        </div>
+    </div>
+    <div style="display: flex; justify-content: flex-start;">
+        <div>
+            Result of A or B and C is <b style="color: @(CheckboxA || (CheckboxB && CheckboxC) ? "green" : "red")">@GetLabel(CheckboxA || (CheckboxB && CheckboxC))</b>
+        </div>
+    </div>  
+</div>
+
+@code {
+    // Define properties for checkboxes
+    private bool CheckboxA { get; set; }
+    private bool CheckboxB { get; set; }
+    private bool CheckboxC { get; set; }
+
+    // Helper method to get the label based on the checkbox value
+    private string GetLabel(bool value)
+    {
+        return value ? "true" : "false";
+    }
+
+    private string GetLabelColor(bool value)
+    {
+        return value ? "green" : "red";
+    }
+}
